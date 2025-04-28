@@ -1,0 +1,92 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model List<BidViewModel>
+@{
+    ViewData["Title"] = "All Bids";
+}
+
+<style>
+
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background-color: #fff5cc;
+    }
+    .header {
+        background-color: #5c3b3b;
+        color: white;
+        padding: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .nav-buttons a {
+        margin: 0 0.5rem;
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        padding: 0.5rem 1rem;
+        border-radius: 15px;
+        transition: background-color 0.3s;
+    }
+    .nav-buttons a.active {
+        background-color: white;
+        color: #5c3b3b;
+        padding: 0.3rem 1rem;
+        border-radius: 15px;
+    }
+
+        .nav-buttons a:hover {
+            background-color: #d9c2c2;
+            color: #5c3b3b;
+        }
+    .bid-card {
+        background-color: #fff3b0;
+        padding: 1rem;
+        margin: 1rem;
+        border-radius: 20px;
+        text-align: center;
+        box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+    }
+    .bids-container {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+    }
+</style>
+
+<div class="header">
+    <h1 style="font-size: 2rem;">Afribase</h1>
+    <div class="nav-buttons">
+        <a class="active">All bids</a>
+        <a href="/Users">Users</a>
+        <a href="/Items">All items</a>
+        <a href="/Sales">Sales</a>
+    </div>
+</div>
+
+<h2 style="text-align: center; margin-top: 1rem;">Active bids</h2>
+
+<div class="bids-container">
+    @foreach (var bid in Model)
+    {
+        <div class="bid-card">
+            <h4>@bid.Title by @bid.Artist</h4>
+            <img src="~/images/@System.IO.Path.GetFileName(bid.ImagePath)" style="width: 150px; height: 150px;" />
+            <h5>Highest bids:</h5>
+            <ol style="text-align: left;">
+                @foreach (var amount in bid.HighestBids)
+                {
+                    <li>R@String.Format("{0:N0}", amount)</li>
+                }
+            </ol>
+            <p>@bid.TotalBids bids placed</p>
+
+            <button class="btn btn-warning mt-2">Place Bid</button>
+        </div>
+    }
+</div>
+
+<div style="text-align: center; margin-top: 2rem; font-weight: bold;">
+    Total active bids: @Model.Count
+</div>
